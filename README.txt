@@ -3,8 +3,8 @@ sudo gem install rspec-rails
 sudo gem install cucumber-rails
 sudo gem install webrat
 
-rails outside_in_example
-cd outside_in_example/
+rails news
+cd news/
 ./script/generate rspec
 ./script/generate cucumber
 vi features/manage_news.feature 
@@ -25,10 +25,6 @@ rm public/index.html
 
 ./script/generate rspec_model story
 vi spec/models/story_spec.rb 
-
-
-
-change stories_controller.rb, create method
-        format.html { redirect_to(root_path) }
+# you might write validation tests in rspec
 
 
