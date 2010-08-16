@@ -1,0 +1,62 @@
+
+Feature: Story JSON API
+  In order to view news
+  As a device or client application using the JSON REST interface
+  I want to make GET requests to the /stories URL
+
+  Scenario: get a list of stories
+    When I request: /stories.json
+    Then I get a 200 (success) status result
+    And the response header Content-Type matches application/json
+    And the response should match json:
+    """
+    { "request": "http://www.example.com/stories.json",
+      "result": [
+         {
+             "title": "Earthquake",
+             "content": "It was big."
+         },
+         {
+             "title": "Flood",
+             "content": "Lots of water."
+         }
+         
+
+        ] ,
+     "status" : { "code": 200, "message":  "ok" }
+    }
+  """
+
+
+-------------------------------------------------
+require 'json'
+
+Then /^the response should match json:$/ do |expected_as_text|
+  expected_json = JSON.parse expected_as_text
+  response_json = JSON.parse response.body
+  response_json.should == expected_json
+end
+
+-------------------------------------------------
+
+add to the controller
+      format.json { render :json => @stories.to_json }
+
+note difference
+
+then create views/stories/index.json.erb
+
+<%=
+  output = {}
+  output[:request] = request.url
+  result = []
+  @stories.each do |story|
+     result <<  {:title => story.title, :content => story.content }
+  end
+  output[:result] = result
+   output["status"] = {"code" => 200, "message" =>  "ok"}
+   output.to_json
+%>
+
+
+

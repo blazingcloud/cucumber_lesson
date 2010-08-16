@@ -25,4 +25,3 @@ Feature: Manage news
     Then I should see "Flood"
     And I should see "Fire"
     And I should not see "House"
-
